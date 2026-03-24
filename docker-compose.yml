@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-server-2022
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourPassword123!"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourPassword123!", "-Q", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - microservices-network
+    volumes:
+      - sqlserver-data:/var/opt/mssql/data
+
+  # Optional: Redis for Caching (if needed)
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices-network
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: Seq for Centralized Logging
+  seq:
+    image: datalust/seq:latest
+    container_name: seq-logging
+    ports:
+      - "5341:5341"
+      - "8080:80"
+    environment:
+      ACCEPT_EULA: "Y"
+    networks:
+      - microservices-network
+    volumes:
+      - seq-data:/data
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    driver: local
+  redis-data:
+    driver: local
+  seq-data:
+    driver: local

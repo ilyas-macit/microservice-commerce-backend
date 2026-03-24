@@ -1,0 +1,108 @@
+# Build and compiled files
+bin/
+obj/
+*.dll
+*.exe
+*.o
+*.so
+*.pdb
+
+# Visual Studio / IDE files
+.vs/
+.vscode/
+*.sln.iml
+*.suo
+*.user
+*.userprefs
+.DS_Store
+.idea/
+*.swp
+*.swo
+
+# NuGet
+*.nupkg
+*.nuspec
+.nuget/
+packages/
+*.lock.json
+
+# Build artifacts
+artifacts/
+publish/
+dist/
+build/
+
+# Logs
+logs/
+log/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+
+# Debug and run settings
+launchSettings.json
+
+# IDE-specific files
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+*.bak
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.orig
+
+# Coverage reports
+coverage/
+.coverage
+.coveragerc
+*.coverage
+
+# Testing
+test-results/
+test-reports/
+TestResults/
+
+# Tools
+tools/
+local.settings.json
+
+# Rider
+.idea/
+*.sln.iml
+
+# ReSharper
+_ReSharper*/
+*.resharper.user
+*.ReSharper.user
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
