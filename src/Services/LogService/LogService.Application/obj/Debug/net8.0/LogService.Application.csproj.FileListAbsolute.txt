@@ -1,0 +1,15 @@
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\bin\Debug\net8.0\LogService.Application.deps.json
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\bin\Debug\net8.0\LogService.Application.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\bin\Debug\net8.0\LogService.Application.pdb
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\bin\Debug\net8.0\LogService.Domain.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\bin\Debug\net8.0\LogService.Domain.pdb
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.AssemblyInfo.cs
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogServi.F535C710.Up2Date
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\refint\LogService.Application.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\LogService.Application.pdb
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Application\obj\Debug\net8.0\ref\LogService.Application.dll
