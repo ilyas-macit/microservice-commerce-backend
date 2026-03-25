@@ -10,3 +10,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogS
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Domain\obj\Debug\net8.0\refint\LogService.Domain.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Domain\obj\Debug\net8.0\LogService.Domain.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Domain\obj\Debug\net8.0\ref\LogService.Domain.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Domain\obj\Debug\net8.0\LogService.Domain.sourcelink.json

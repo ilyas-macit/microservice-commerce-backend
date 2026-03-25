@@ -57,4 +57,31 @@ public class UserRepository : IUserRepository
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
     }
+
+    public Task<User?> GetByEmailAsync(string email)
+    {
+        return _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+    }
+
+    public async Task AddRefreshTokenAsync(RefreshToken token)
+    {
+        _context.Set<RefreshToken>().Add(token);
+        await _context.SaveChangesAsync();
+    }
+
+    public Task<RefreshToken?> GetRefreshTokenAsync(string token)
+    {
+        return _context.Set<RefreshToken>().FirstOrDefaultAsync(x => x.Token == token);
+    }
+
+    public async Task RevokeRefreshTokenAsync(string token)
+    {
+        var refreshToken = await _context.Set<RefreshToken>().FirstOrDefaultAsync(x => x.Token == token);
+        if (refreshToken is not null)
+        {
+            refreshToken.IsRevoked = true;
+            _context.Set<RefreshToken>().Update(refreshToken);
+            await _context.SaveChangesAsync();
+        }
+    }
 }

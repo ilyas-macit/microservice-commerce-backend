@@ -88,3 +88,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.API\obj\Debug\net8.0\ProductService.API.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.API\obj\Debug\net8.0\ProductService.API.genruntimeconfig.cache
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.API\obj\Debug\net8.0\ref\ProductService.API.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.API\obj\Debug\net8.0\ProductService.API.sourcelink.json

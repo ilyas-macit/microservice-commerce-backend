@@ -15,3 +15,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogS
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Infrastructure\obj\Debug\net8.0\refint\LogService.Infrastructure.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Infrastructure\obj\Debug\net8.0\LogService.Infrastructure.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Infrastructure\obj\Debug\net8.0\ref\LogService.Infrastructure.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.Infrastructure\obj\Debug\net8.0\LogService.Infrastructure.sourcelink.json

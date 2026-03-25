@@ -13,3 +13,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Application\obj\Debug\net8.0\refint\ProductService.Application.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Application\obj\Debug\net8.0\ProductService.Application.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Application\obj\Debug\net8.0\ref\ProductService.Application.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Application\obj\Debug\net8.0\ProductService.Application.sourcelink.json

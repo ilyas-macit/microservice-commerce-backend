@@ -10,3 +10,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Domain\obj\Debug\net8.0\refint\ProductService.Domain.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Domain\obj\Debug\net8.0\ProductService.Domain.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Domain\obj\Debug\net8.0\ref\ProductService.Domain.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Domain\obj\Debug\net8.0\ProductService.Domain.sourcelink.json

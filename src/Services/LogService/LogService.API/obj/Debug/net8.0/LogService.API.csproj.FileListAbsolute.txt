@@ -88,3 +88,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogS
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.API\obj\Debug\net8.0\LogService.API.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.API\obj\Debug\net8.0\LogService.API.genruntimeconfig.cache
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.API\obj\Debug\net8.0\ref\LogService.API.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\LogService\LogService.API\obj\Debug\net8.0\LogService.API.sourcelink.json

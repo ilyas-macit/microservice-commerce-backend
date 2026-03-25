@@ -15,3 +15,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Infrastructure\obj\Debug\net8.0\refint\ProductService.Infrastructure.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Infrastructure\obj\Debug\net8.0\ProductService.Infrastructure.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Infrastructure\obj\Debug\net8.0\ref\ProductService.Infrastructure.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\ProductService\ProductService.Infrastructure\obj\Debug\net8.0\ProductService.Infrastructure.sourcelink.json
