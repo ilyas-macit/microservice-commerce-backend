@@ -89,3 +89,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\Aut
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.API\obj\Debug\net8.0\AuthService.API.genruntimeconfig.cache
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.API\obj\Debug\net8.0\ref\AuthService.API.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.API\obj\Debug\net8.0\AuthService.API.sourcelink.json
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
