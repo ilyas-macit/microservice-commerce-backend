@@ -33,7 +33,9 @@ public class AuthDbContext : DbContext
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Id).ValueGeneratedNever();
             entity.Property(x => x.Token).IsRequired();
+            entity.HasIndex(x => x.Token).IsUnique();
             entity.Property(x => x.UserId).IsRequired();
+            entity.Property(x => x.IsRevoked).HasDefaultValue(false);
         });
     }
 }

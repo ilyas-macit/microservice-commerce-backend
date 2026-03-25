@@ -71,7 +71,7 @@ public class UserRepository : IUserRepository
 
     public Task<RefreshToken?> GetRefreshTokenAsync(string token)
     {
-        return _context.Set<RefreshToken>().FirstOrDefaultAsync(x => x.Token == token);
+        return _context.Set<RefreshToken>().FirstOrDefaultAsync(x => x.Token == token && !x.IsRevoked);
     }
 
     public async Task RevokeRefreshTokenAsync(string token)
