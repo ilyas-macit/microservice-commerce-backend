@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
         try
         {
             var result = await _authenticationService.RegisterAsync(request);
-            return Ok(result);
+            return StatusCode(StatusCodes.Status201Created, result);
         }
         catch (InvalidOperationException ex)
         {
