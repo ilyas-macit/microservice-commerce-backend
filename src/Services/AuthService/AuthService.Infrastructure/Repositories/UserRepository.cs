@@ -1,5 +1,7 @@
 using AuthService.Domain.Entities;
 using AuthService.Domain.Interfaces;
+using AuthService.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Infrastructure.Repositories;
 
@@ -8,40 +10,51 @@ namespace AuthService.Infrastructure.Repositories;
 /// </summary>
 public class UserRepository : IUserRepository
 {
-    // private readonly AuthDbContext _context;
+    private readonly AuthDbContext _context;
 
-    // public UserRepository(AuthDbContext context)
-    // {
-    //     _context = context;
-    // }
-
-    public Task<User?> GetUserByIdAsync(int id)
+    public UserRepository(AuthDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
+    }
+
+    public Task<User?> GetUserByIdAsync(Guid id)
+    {
+        return _context.Users.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public Task<User?> GetUserByUsernameAsync(string username)
     {
-        throw new NotImplementedException();
+        return _context.Users.FirstOrDefaultAsync(x => x.Username == username);
     }
 
     public Task<User?> GetUserByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        return _context.Users.FirstOrDefaultAsync(x => x.Email == email);
     }
 
-    public Task<User> CreateUserAsync(User user)
+    public async Task<User> CreateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 
-    public Task<User> UpdateUserAsync(User user)
+    public async Task<User> UpdateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 
-    public Task DeleteUserAsync(int id)
+    public async Task DeleteUserAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        if (user is null)
+        {
+            return;
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
     }
 }

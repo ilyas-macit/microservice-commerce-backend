@@ -10,3 +10,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\Aut
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Domain\obj\Debug\net8.0\refint\AuthService.Domain.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Domain\obj\Debug\net8.0\ref\AuthService.Domain.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Domain\obj\Debug\net8.0\AuthService.Domain.sourcelink.json

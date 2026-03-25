@@ -15,3 +15,4 @@ C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\Aut
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Infrastructure\obj\Debug\net8.0\refint\AuthService.Infrastructure.dll
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Infrastructure\obj\Debug\net8.0\AuthService.Infrastructure.pdb
 C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Infrastructure\obj\Debug\net8.0\ref\AuthService.Infrastructure.dll
+C:\Users\user\Desktop\microservice-commerce-backend\src\Services\AuthService\AuthService.Infrastructure\obj\Debug\net8.0\AuthService.Infrastructure.sourcelink.json
