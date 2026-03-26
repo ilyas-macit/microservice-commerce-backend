@@ -30,8 +30,8 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 // Services
 builder.Services.AddControllers();
 
-var sqlConnection = builder.Configuration["ConnectionStrings:Default"]
-    ?? throw new InvalidOperationException("ConnectionStrings:Default is missing");
+var sqlConnection = builder.Configuration["ConnectionStrings:DefaultConnection"]
+    ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is missing");
 builder.Services.AddDbContext<ProductDbContext>(options => options.UseSqlServer(sqlConnection));
 
 builder.Services.AddStackExchangeRedisCache(options =>
