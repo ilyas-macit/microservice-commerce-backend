@@ -29,6 +29,7 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 
 // Services
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 
 var sqlConnection = builder.Configuration["ConnectionStrings:DefaultConnection"]
     ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is missing");
