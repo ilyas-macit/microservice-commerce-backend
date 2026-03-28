@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Json;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,9 +52,25 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("authenticated", policy => policy.RequireAuthenticatedUser());
 });
 
-builder.Services.AddRateLimiter(_ =>
+builder.Services.AddRateLimiter(options =>
 {
-    // Rate limit policies will be configured in the next task.
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("general", policyOptions =>
+    {
+        policyOptions.PermitLimit = 60;
+        policyOptions.Window = TimeSpan.FromMinutes(1);
+        policyOptions.QueueLimit = 5;
+        policyOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+
+    options.AddFixedWindowLimiter("auth", policyOptions =>
+    {
+        policyOptions.PermitLimit = 10;
+        policyOptions.Window = TimeSpan.FromMinutes(1);
+        policyOptions.QueueLimit = 0;
+        policyOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -97,7 +114,6 @@ app.UseHttpsRedirection();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 app.MapReverseProxy();
 
 app.Run();
