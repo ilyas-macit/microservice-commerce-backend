@@ -40,7 +40,7 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
-    [AllowAnonymous]
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] AddProductCommand command)
     {
