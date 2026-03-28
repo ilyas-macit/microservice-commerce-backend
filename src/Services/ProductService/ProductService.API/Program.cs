@@ -43,7 +43,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(Program).Assembly,
-    typeof(AddProductCommand).Assembly));
+    typeof(AddProductCommandHandler).Assembly));
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICacheService, RedisCacheService>();

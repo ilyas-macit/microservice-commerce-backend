@@ -19,7 +19,7 @@ public class LogController : ControllerBase
         _logRepository = logRepository;
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateLogCommand command)
     {
