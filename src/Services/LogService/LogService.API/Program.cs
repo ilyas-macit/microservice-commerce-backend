@@ -1,4 +1,5 @@
 using LogService.Application.Commands.CreateLog;
+using LogService.API.Middleware;
 using LogService.Domain.Interfaces;
 using LogService.Infrastructure.Persistence;
 using LogService.Infrastructure.Repositories;
@@ -97,6 +98,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
