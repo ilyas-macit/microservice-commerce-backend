@@ -1,15 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["LogService.API/LogService.API.csproj", "LogService.API/"]
-COPY ["LogService.Application/LogService.Application.csproj", "LogService.Application/"]
-COPY ["LogService.Domain/LogService.Domain.csproj", "LogService.Domain/"]
-COPY ["LogService.Infrastructure/LogService.Infrastructure.csproj", "LogService.Infrastructure/"]
+COPY ["Services/LogService/LogService.API/LogService.API.csproj", "Services/LogService/LogService.API/"]
+COPY ["Services/LogService/LogService.Application/LogService.Application.csproj", "Services/LogService/LogService.Application/"]
+COPY ["Services/LogService/LogService.Domain/LogService.Domain.csproj", "Services/LogService/LogService.Domain/"]
+COPY ["Services/LogService/LogService.Infrastructure/LogService.Infrastructure.csproj", "Services/LogService/LogService.Infrastructure/"]
+COPY ["BuildingBlocks/Shared.Contracts/Shared.Contracts.csproj", "BuildingBlocks/Shared.Contracts/"]
 
-RUN dotnet restore "LogService.API/LogService.API.csproj"
+RUN dotnet restore "Services/LogService/LogService.API/LogService.API.csproj"
 
 COPY . .
-RUN dotnet publish "LogService.API/LogService.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Services/LogService/LogService.API/LogService.API.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app

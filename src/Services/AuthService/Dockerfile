@@ -1,15 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
-COPY ["AuthService.Application/AuthService.Application.csproj", "AuthService.Application/"]
-COPY ["AuthService.Domain/AuthService.Domain.csproj", "AuthService.Domain/"]
-COPY ["AuthService.Infrastructure/AuthService.Infrastructure.csproj", "AuthService.Infrastructure/"]
+COPY ["Services/AuthService/AuthService.API/AuthService.API.csproj", "Services/AuthService/AuthService.API/"]
+COPY ["Services/AuthService/AuthService.Application/AuthService.Application.csproj", "Services/AuthService/AuthService.Application/"]
+COPY ["Services/AuthService/AuthService.Domain/AuthService.Domain.csproj", "Services/AuthService/AuthService.Domain/"]
+COPY ["Services/AuthService/AuthService.Infrastructure/AuthService.Infrastructure.csproj", "Services/AuthService/AuthService.Infrastructure/"]
 
-RUN dotnet restore "AuthService.API/AuthService.API.csproj"
+RUN dotnet restore "Services/AuthService/AuthService.API/AuthService.API.csproj"
 
 COPY . .
-RUN dotnet publish "AuthService.API/AuthService.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Services/AuthService/AuthService.API/AuthService.API.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app

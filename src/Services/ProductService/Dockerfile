@@ -1,15 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["ProductService.API/ProductService.API.csproj", "ProductService.API/"]
-COPY ["ProductService.Application/ProductService.Application.csproj", "ProductService.Application/"]
-COPY ["ProductService.Domain/ProductService.Domain.csproj", "ProductService.Domain/"]
-COPY ["ProductService.Infrastructure/ProductService.Infrastructure.csproj", "ProductService.Infrastructure/"]
+COPY ["Services/ProductService/ProductService.API/ProductService.API.csproj", "Services/ProductService/ProductService.API/"]
+COPY ["Services/ProductService/ProductService.Application/ProductService.Application.csproj", "Services/ProductService/ProductService.Application/"]
+COPY ["Services/ProductService/ProductService.Domain/ProductService.Domain.csproj", "Services/ProductService/ProductService.Domain/"]
+COPY ["Services/ProductService/ProductService.Infrastructure/ProductService.Infrastructure.csproj", "Services/ProductService/ProductService.Infrastructure/"]
+COPY ["BuildingBlocks/Shared.Contracts/Shared.Contracts.csproj", "BuildingBlocks/Shared.Contracts/"]
 
-RUN dotnet restore "ProductService.API/ProductService.API.csproj"
+RUN dotnet restore "Services/ProductService/ProductService.API/ProductService.API.csproj"
 
 COPY . .
-RUN dotnet publish "ProductService.API/ProductService.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Services/ProductService/ProductService.API/ProductService.API.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
