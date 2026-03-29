@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Formatting.Json;
 using System.Text;
+using LogService.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,15 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 
 // Services
 builder.Services.AddControllers();
+builder.Services
+    .AddOptions<RabbitMqSettings>()
+    .Bind(builder.Configuration.GetSection("RabbitMq"))
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Host), "RabbitMq:Host is required")
+    .Validate(options => options.Port > 0, "RabbitMq:Port must be greater than 0")
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Username), "RabbitMq:Username is required")
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Password), "RabbitMq:Password is required")
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<RabbitMqSettings>>().Value);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection not configured");

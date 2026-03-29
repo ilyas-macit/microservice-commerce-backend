@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 using ProductService.API.Middleware;
 using ProductService.Application.Commands.AddProduct;
 using ProductService.Application.Interfaces;
 using ProductService.Domain.Interfaces;
+using ProductService.Infrastructure.Configuration;
 using ProductService.Infrastructure.Persistence;
 using ProductService.Infrastructure.Repositories;
 using ProductService.Infrastructure.Services;
@@ -31,6 +33,15 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 // Services
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
+builder.Services
+    .AddOptions<RabbitMqSettings>()
+    .Bind(builder.Configuration.GetSection("RabbitMq"))
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Host), "RabbitMq:Host is required")
+    .Validate(options => options.Port > 0, "RabbitMq:Port must be greater than 0")
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Username), "RabbitMq:Username is required")
+    .Validate(options => !string.IsNullOrWhiteSpace(options.Password), "RabbitMq:Password is required")
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<RabbitMqSettings>>().Value);
 
 var sqlConnection = builder.Configuration["ConnectionStrings:DefaultConnection"]
     ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is missing");
