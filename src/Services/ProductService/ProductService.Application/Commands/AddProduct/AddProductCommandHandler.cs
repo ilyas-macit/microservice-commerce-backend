@@ -1,6 +1,5 @@
 using MediatR;
 using ProductService.Application.Interfaces;
-using ProductService.Domain.Events;
 using ProductService.Domain.Interfaces;
 using Shared.Contracts.IntegrationEvents;
 
@@ -9,18 +8,15 @@ namespace ProductService.Application.Commands.AddProduct;
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Guid>
 {
     private readonly IProductRepository _productRepository;
-    private readonly IPublisher _publisher;
     private readonly IIntegrationEventPublisher _integrationEventPublisher;
     private readonly ICacheService _cacheService;
 
     public AddProductCommandHandler(
         IProductRepository productRepository,
-        IPublisher publisher,
         IIntegrationEventPublisher integrationEventPublisher,
         ICacheService cacheService)
     {
         _productRepository = productRepository;
-        _publisher = publisher;
         _integrationEventPublisher = integrationEventPublisher;
         _cacheService = cacheService;
     }
@@ -39,13 +35,6 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Guid>
         await _integrationEventPublisher.PublishProductCreatedAsync(
             MapToIntegrationEvent(product),
             cancellationToken);
-
-        await _publisher.Publish(new ProductAddedEvent
-        {
-            ProductId = product.Id,
-            ProductName = product.Name,
-            Timestamp = DateTime.UtcNow
-        }, cancellationToken);
 
         await _cacheService.RemoveAsync("products:all");
 

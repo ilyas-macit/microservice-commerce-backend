@@ -95,7 +95,6 @@ services:
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=${JWT_ISSUER}
       - Jwt__Audience=${JWT_AUDIENCE}
-      - Services__LogServiceUrl=http://log-service:8080
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
       - RabbitMq__Username=${RABBITMQ_USERNAME}

@@ -32,7 +32,6 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 
 // Services
 builder.Services.AddControllers();
-builder.Services.AddHttpClient();
 builder.Services
     .AddOptions<RabbitMqSettings>()
     .Bind(builder.Configuration.GetSection("RabbitMq"))
