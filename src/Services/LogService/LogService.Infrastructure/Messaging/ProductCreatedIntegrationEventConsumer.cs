@@ -9,15 +9,12 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shared.Contracts.IntegrationEvents;
+using Shared.Contracts.Messaging;
 
 namespace LogService.Infrastructure.Messaging;
 
 public class ProductCreatedIntegrationEventConsumer : BackgroundService
 {
-    private const string ExchangeName = "product.events";
-    private const string QueueName = "log.product.created";
-    private const string RoutingKey = "product.created";
-
     private readonly RabbitMqSettings _settings;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<ProductCreatedIntegrationEventConsumer> _logger;
@@ -50,11 +47,13 @@ public class ProductCreatedIntegrationEventConsumer : BackgroundService
                 };
 
                 _channel!.BasicConsume(
-                    queue: QueueName,
+                    queue: ProductEventsTopology.Queues.LogProductCreated,
                     autoAck: false,
                     consumer: consumer);
 
-                _logger.LogInformation("RabbitMQ consumer started for queue {QueueName}.", QueueName);
+                _logger.LogInformation(
+                    "RabbitMQ consumer started for queue {QueueName}.",
+                    ProductEventsTopology.Queues.LogProductCreated);
 
                 await Task.Delay(Timeout.Infinite, stoppingToken);
             }
@@ -101,21 +100,21 @@ public class ProductCreatedIntegrationEventConsumer : BackgroundService
         _channel = _connection.CreateModel();
 
         _channel.ExchangeDeclare(
-            exchange: ExchangeName,
+            exchange: ProductEventsTopology.Exchange,
             type: ExchangeType.Topic,
             durable: true,
             autoDelete: false);
 
         _channel.QueueDeclare(
-            queue: QueueName,
+            queue: ProductEventsTopology.Queues.LogProductCreated,
             durable: true,
             exclusive: false,
             autoDelete: false);
 
         _channel.QueueBind(
-            queue: QueueName,
-            exchange: ExchangeName,
-            routingKey: RoutingKey);
+            queue: ProductEventsTopology.Queues.LogProductCreated,
+            exchange: ProductEventsTopology.Exchange,
+            routingKey: ProductEventsTopology.RoutingKeys.ProductCreated);
     }
 
     private async Task HandleMessageAsync(BasicDeliverEventArgs eventArgs, CancellationToken cancellationToken)

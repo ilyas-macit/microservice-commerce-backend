@@ -5,15 +5,12 @@ using ProductService.Application.Interfaces;
 using ProductService.Infrastructure.Configuration;
 using RabbitMQ.Client;
 using Shared.Contracts.IntegrationEvents;
+using Shared.Contracts.Messaging;
 
 namespace ProductService.Infrastructure.Services;
 
 public class RabbitMqIntegrationEventPublisher : IIntegrationEventPublisher
 {
-    private const string ExchangeName = "product.events";
-    private const string QueueName = "log.product.created";
-    private const string RoutingKey = "product.created";
-
     private readonly RabbitMqSettings _settings;
     private readonly ILogger<RabbitMqIntegrationEventPublisher> _logger;
 
@@ -41,21 +38,21 @@ public class RabbitMqIntegrationEventPublisher : IIntegrationEventPublisher
             using var channel = connection.CreateModel();
 
             channel.ExchangeDeclare(
-                exchange: ExchangeName,
+                exchange: ProductEventsTopology.Exchange,
                 type: ExchangeType.Topic,
                 durable: true,
                 autoDelete: false);
 
             channel.QueueDeclare(
-                queue: QueueName,
+                queue: ProductEventsTopology.Queues.LogProductCreated,
                 durable: true,
                 exclusive: false,
                 autoDelete: false);
 
             channel.QueueBind(
-                queue: QueueName,
-                exchange: ExchangeName,
-                routingKey: RoutingKey);
+                queue: ProductEventsTopology.Queues.LogProductCreated,
+                exchange: ProductEventsTopology.Exchange,
+                routingKey: ProductEventsTopology.RoutingKeys.ProductCreated);
 
             var payload = JsonSerializer.Serialize(integrationEvent);
             var body = Encoding.UTF8.GetBytes(payload);
@@ -65,8 +62,8 @@ public class RabbitMqIntegrationEventPublisher : IIntegrationEventPublisher
             properties.ContentType = "application/json";
 
             channel.BasicPublish(
-                exchange: ExchangeName,
-                routingKey: RoutingKey,
+                exchange: ProductEventsTopology.Exchange,
+                routingKey: ProductEventsTopology.RoutingKeys.ProductCreated,
                 basicProperties: properties,
                 body: body);
         }
