@@ -37,8 +37,8 @@ add_to_profile 'ProductService__ConnectionString="Server=localhost,1433;Database
 
 # LogService
 echo "Setting LogService Configuration..."
-export LogService__ConnectionString="Server=localhost,1433;Database=LogServiceDb;User Id=sa;Password=YourPassword123;"
-add_to_profile 'LogService__ConnectionString="Server=localhost,1433;Database=LogServiceDb;User Id=sa;Password=YourPassword123;"'
+export LogService__ConnectionString="Server=localhost,1433;Database=LogDb;User Id=sa;Password=YourPassword123;"
+add_to_profile 'LogService__ConnectionString="Server=localhost,1433;Database=LogDb;User Id=sa;Password=YourPassword123;"'
 
 # API Gateway
 echo "Setting ApiGateway Configuration..."

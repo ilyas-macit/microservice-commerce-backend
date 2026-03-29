@@ -23,7 +23,7 @@ $env:ConnectionStrings__DefaultConnection = "Server=localhost;Database=ProductSe
 $env:Jwt__Secret = "your-jwt-secret-key-here"
 $env:Jwt__Issuer = "LogService"
 $env:Jwt__Audience = "MicroserviceClients"
-$env:ConnectionStrings__DefaultConnection = "Server=localhost;Database=LogServiceDb;User Id=sa;Password=YourPassword123;"
+$env:ConnectionStrings__DefaultConnection = "Server=localhost;Database=LogDb;User Id=sa;Password=YourPassword123;"
 ```
 
 ### .NET Environment Variables Format

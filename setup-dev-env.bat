@@ -24,7 +24,7 @@ setx ProductService__ConnectionString "Server=localhost,1433;Database=ProductSer
 
 REM LogService
 echo Setting LogService Configuration...
-setx LogService__ConnectionString "Server=localhost,1433;Database=LogServiceDb;User Id=sa;Password=YourPassword123;"
+setx LogService__ConnectionString "Server=localhost,1433;Database=LogDb;User Id=sa;Password=YourPassword123;"
 
 REM API Gateway
 echo Setting ApiGateway Configuration...
