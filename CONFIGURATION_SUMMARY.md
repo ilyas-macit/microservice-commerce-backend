@@ -194,7 +194,7 @@ Aşağıdaki konteynerler `docker-compose.yml` ile başlatılır:
 
 1. **SQL Server 2022** - Veritabanı
    - Port: 1433
-   - SA Password: YourPassword123!
+   - SA Password: G7pL2!wX9v*zR5
 
 2. **Redis 7** - Caching (opsiyonel)
    - Port: 6379

@@ -36,7 +36,7 @@ public class ProductDbContextFactory : IDesignTimeDbContextFactory<ProductDbCont
     public ProductDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ProductDbContext>();
-        var connectionString = "Server=localhost,1433;Database=ProductDb;User Id=sa;Password=YourPassword123!;TrustServerCertificate=True;Encrypt=False";
+        var connectionString = "Server=localhost,1433;Database=ProductDb;User Id=sa;Password=G7pL2!wX9v*zR5;TrustServerCertificate=True;Encrypt=False";
         optionsBuilder.UseSqlServer(connectionString);
 
         return new ProductDbContext(optionsBuilder.Options);
