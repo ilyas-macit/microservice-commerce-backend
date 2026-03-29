@@ -13,6 +13,7 @@ using Serilog;
 using Serilog.Formatting.Json;
 using System.Text;
 using LogService.Infrastructure.Configuration;
+using LogService.Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateLogCommand).Assembly));
 
 builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddHostedService<ProductCreatedIntegrationEventConsumer>();
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtKey = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key not configured");

@@ -1,0 +1,184 @@
+using System.Text;
+using System.Text.Json;
+using LogService.Application.Commands.CreateLog;
+using LogService.Infrastructure.Configuration;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using Shared.Contracts.IntegrationEvents;
+
+namespace LogService.Infrastructure.Messaging;
+
+public class ProductCreatedIntegrationEventConsumer : BackgroundService
+{
+    private const string ExchangeName = "product.events";
+    private const string QueueName = "log.product.created";
+    private const string RoutingKey = "product.created";
+
+    private readonly RabbitMqSettings _settings;
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ILogger<ProductCreatedIntegrationEventConsumer> _logger;
+
+    private IConnection? _connection;
+    private IModel? _channel;
+
+    public ProductCreatedIntegrationEventConsumer(
+        RabbitMqSettings settings,
+        IServiceScopeFactory scopeFactory,
+        ILogger<ProductCreatedIntegrationEventConsumer> logger)
+    {
+        _settings = settings;
+        _scopeFactory = scopeFactory;
+        _logger = logger;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            try
+            {
+                EnsureBrokerObjects();
+
+                var consumer = new AsyncEventingBasicConsumer(_channel);
+                consumer.Received += async (_, eventArgs) =>
+                {
+                    await HandleMessageAsync(eventArgs, stoppingToken);
+                };
+
+                _channel!.BasicConsume(
+                    queue: QueueName,
+                    autoAck: false,
+                    consumer: consumer);
+
+                _logger.LogInformation("RabbitMQ consumer started for queue {QueueName}.", QueueName);
+
+                await Task.Delay(Timeout.Infinite, stoppingToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "RabbitMQ consumer failed. Retrying in 5 seconds.");
+                Cleanup();
+                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+            }
+        }
+    }
+
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        Cleanup();
+        return base.StopAsync(cancellationToken);
+    }
+
+    private void EnsureBrokerObjects()
+    {
+        if (_connection is { IsOpen: true } && _channel is { IsOpen: true })
+        {
+            return;
+        }
+
+        Cleanup();
+
+        var factory = new ConnectionFactory
+        {
+            HostName = _settings.Host,
+            Port = _settings.Port,
+            UserName = _settings.Username,
+            Password = _settings.Password,
+            DispatchConsumersAsync = true,
+            AutomaticRecoveryEnabled = true,
+            NetworkRecoveryInterval = TimeSpan.FromSeconds(5)
+        };
+
+        _connection = factory.CreateConnection();
+        _channel = _connection.CreateModel();
+
+        _channel.ExchangeDeclare(
+            exchange: ExchangeName,
+            type: ExchangeType.Topic,
+            durable: true,
+            autoDelete: false);
+
+        _channel.QueueDeclare(
+            queue: QueueName,
+            durable: true,
+            exclusive: false,
+            autoDelete: false);
+
+        _channel.QueueBind(
+            queue: QueueName,
+            exchange: ExchangeName,
+            routingKey: RoutingKey);
+    }
+
+    private async Task HandleMessageAsync(BasicDeliverEventArgs eventArgs, CancellationToken cancellationToken)
+    {
+        if (_channel is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+            var integrationEvent = JsonSerializer.Deserialize<ProductCreatedIntegrationEvent>(body);
+
+            if (integrationEvent is null)
+            {
+                _logger.LogWarning("Received invalid ProductCreatedIntegrationEvent payload.");
+                _channel.BasicNack(eventArgs.DeliveryTag, multiple: false, requeue: false);
+                return;
+            }
+
+            using var scope = _scopeFactory.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+            await sender.Send(new CreateLogCommand
+            {
+                Level = "INFO",
+                Message = $"Product created: {integrationEvent.Name} (Id: {integrationEvent.ProductId})",
+                ServiceName = "ProductService"
+            }, cancellationToken);
+
+            _channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing ProductCreatedIntegrationEvent message.");
+            _channel.BasicNack(eventArgs.DeliveryTag, multiple: false, requeue: true);
+        }
+    }
+
+    private void Cleanup()
+    {
+        try
+        {
+            _channel?.Close();
+            _channel?.Dispose();
+        }
+        catch
+        {
+            // Best effort cleanup.
+        }
+
+        try
+        {
+            _connection?.Close();
+            _connection?.Dispose();
+        }
+        catch
+        {
+            // Best effort cleanup.
+        }
+
+        _channel = null;
+        _connection = null;
+    }
+}
