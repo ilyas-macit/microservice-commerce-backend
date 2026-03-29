@@ -26,6 +26,13 @@ public class RabbitMqIntegrationEventPublisher : IIntegrationEventPublisher
     {
         try
         {
+            _logger.LogInformation(
+                "Publishing ProductCreatedIntegrationEvent: ProductId={ProductId}, Name={ProductName}, Exchange={Exchange}, RoutingKey={RoutingKey}",
+                integrationEvent.ProductId,
+                integrationEvent.Name,
+                ProductEventsTopology.Exchange,
+                ProductEventsTopology.RoutingKeys.ProductCreated);
+
             var factory = new ConnectionFactory
             {
                 HostName = _settings.Host,
@@ -66,10 +73,22 @@ public class RabbitMqIntegrationEventPublisher : IIntegrationEventPublisher
                 routingKey: ProductEventsTopology.RoutingKeys.ProductCreated,
                 basicProperties: properties,
                 body: body);
+
+            _logger.LogInformation(
+                "ProductCreatedIntegrationEvent published successfully: ProductId={ProductId}, Queue={Queue}",
+                integrationEvent.ProductId,
+                ProductEventsTopology.Queues.LogProductCreated);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to publish ProductCreatedIntegrationEvent to RabbitMQ.");
+            _logger.LogError(
+                ex,
+                "Failed to publish ProductCreatedIntegrationEvent to RabbitMQ: ProductId={ProductId}, Name={ProductName}, Exchange={Exchange}, RoutingKey={RoutingKey}",
+                integrationEvent.ProductId,
+                integrationEvent.Name,
+                ProductEventsTopology.Exchange,
+                ProductEventsTopology.RoutingKeys.ProductCreated);
+            throw;
         }
 
         return Task.CompletedTask;

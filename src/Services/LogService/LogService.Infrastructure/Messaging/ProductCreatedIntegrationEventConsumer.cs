@@ -126,15 +126,29 @@ public class ProductCreatedIntegrationEventConsumer : BackgroundService
 
         try
         {
+            _logger.LogInformation(
+                "Received message from queue {QueueName}, DeliveryTag={DeliveryTag}",
+                ProductEventsTopology.Queues.LogProductCreated,
+                eventArgs.DeliveryTag);
+
             var body = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             var integrationEvent = JsonSerializer.Deserialize<ProductCreatedIntegrationEvent>(body);
 
             if (integrationEvent is null)
             {
-                _logger.LogWarning("Received invalid ProductCreatedIntegrationEvent payload.");
+                _logger.LogWarning(
+                    "Received invalid ProductCreatedIntegrationEvent payload. DeliveryTag={DeliveryTag}, RawPayload={RawPayload}",
+                    eventArgs.DeliveryTag,
+                    body);
                 _channel.BasicNack(eventArgs.DeliveryTag, multiple: false, requeue: false);
                 return;
             }
+
+            _logger.LogInformation(
+                "Processing ProductCreatedIntegrationEvent: ProductId={ProductId}, Name={ProductName}, DeliveryTag={DeliveryTag}",
+                integrationEvent.ProductId,
+                integrationEvent.Name,
+                eventArgs.DeliveryTag);
 
             using var scope = _scopeFactory.CreateScope();
             var sender = scope.ServiceProvider.GetRequiredService<ISender>();
@@ -147,10 +161,19 @@ public class ProductCreatedIntegrationEventConsumer : BackgroundService
             }, cancellationToken);
 
             _channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
+
+            _logger.LogInformation(
+                "ProductCreatedIntegrationEvent processed successfully: ProductId={ProductId}, DeliveryTag={DeliveryTag}",
+                integrationEvent.ProductId,
+                eventArgs.DeliveryTag);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error processing ProductCreatedIntegrationEvent message.");
+            _logger.LogError(
+                ex,
+                "Error processing ProductCreatedIntegrationEvent message. DeliveryTag={DeliveryTag}, Queue={QueueName}",
+                eventArgs.DeliveryTag,
+                ProductEventsTopology.Queues.LogProductCreated);
             _channel.BasicNack(eventArgs.DeliveryTag, multiple: false, requeue: true);
         }
     }
