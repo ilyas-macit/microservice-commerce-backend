@@ -33,15 +33,12 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Guid>
             request.Price,
             request.Stock);
 
+        // Persist first; publish integration event only after successful save.
         await _productRepository.AddAsync(product);
 
-        await _integrationEventPublisher.PublishProductCreatedAsync(new ProductCreatedIntegrationEvent
-        {
-            ProductId = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            CreatedAtUtc = product.CreatedAt
-        }, cancellationToken);
+        await _integrationEventPublisher.PublishProductCreatedAsync(
+            MapToIntegrationEvent(product),
+            cancellationToken);
 
         await _publisher.Publish(new ProductAddedEvent
         {
@@ -53,5 +50,16 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Guid>
         await _cacheService.RemoveAsync("products:all");
 
         return product.Id;
+    }
+
+    private static ProductCreatedIntegrationEvent MapToIntegrationEvent(Domain.Entities.Product product)
+    {
+        return new ProductCreatedIntegrationEvent
+        {
+            ProductId = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            CreatedAtUtc = product.CreatedAt
+        };
     }
 }
