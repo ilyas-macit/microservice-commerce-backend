@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LogService.Domain\LogService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Shared.Contracts\Shared.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
